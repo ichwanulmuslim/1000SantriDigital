@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Rawi</title>
+	
+	<link rel="stylesheet" href="css\themes\default\jquery.mobile-1.2.0.css" />
+	<!-- <link rel="stylesheet" href="index.css" />  -->
+
+    <script src="jquery.mobile/jquery-1.6.4.min"></script>
+	<script src="css\themes\default\jquery.mobile-1.2.0.css"></script>
+	<script type="text/javascript" charset="utf-8" src="cordova-2.7.0.js"></script>
+	<!-- // <script type="text/javascript" charset="utf-8" src="index.js"></script> -->
+
+	<link rel="stylesheet" href="jquery.mobile/jquery.mobile-1.0.1.min.css" />
+	<link rel="stylesheet" href="index.css" /> 
+	<script src="jquery.mobile/jquery.mobile-1.0.1.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="index.js"></script>
+
+	
+	
+</head>
+<body onload="init();">
+<div data-role="page" id="main" class="ui-page-active">
+
+	<div data-role="content">
+		
+		
+			<div data-theme="c" data-role="header">
+            <img src="Header.png" valign="center"width ="100%" alt="Responsive devices">
+    		</div>
+
+			<div class="content">
+			<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="f">
+				<li data-role="list-divider">Kumpulan Riwayat Maulid</li>
+				<li><a href="1.sim.html" data-transition="none">Simthud Duror</a></li>
+				<li><a href="2.bar.html" data-transition="none">Barzanji</a></li>
+				<li><a href="3.dhi.html" data-transition="none">Adhiyaul Lami</a></li>
+				<li><a href="4.diba.html" data-transition="none">Ad-Diba'i (MP3)</a></li>
+				<li><a href="5.azab.html" data-transition="none">'Azab</a></li>
+				<li><a href="6.burdah.html" data-transition="none">Burdah</a></li>
+			</ul>
+
+			<ul data-role="listview" data-inset="true" data-theme="b" data-dividertheme="f">
+				<li data-role="list-divider">About Us</li>
+				<li><a href="XX_about.html" data-transition="slide">Ichwanul Muslim</a></li>
+				<li><a href="undangan.html" data-transition="slide">Daarul Hijrah</a></li>
+			</ul>
+
+			</div>
+
+		
+
+	</div>
+
+	<div data-role="footer" class="footer-docs" data-theme="c">
+            <p class="jqm-version"></p>
+			<p align="center">&copy; 2013 - Daarul Hijrah</p>
+	</div>
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+    //*********************************************************    
+    // Prepare dir for file and storage features
+    //*********************************************************  
+    var rootDir         = "file:///mnt/sdcard";
+    var appHomeDir      = "Android/rawi";
+    var appFullPath     = rootDir + "/" + appHomeDir;
+    var demoMediaFile   = appHomeDir + "/phonegap-demo.mp3";     // relative to /sdcard
+    var dbName          = "phonegapDemoDB";
+    var dbDisplayName   = "PhoneGap Demo DB";
+    var dbVersion       = "1.0";
+    var dbSize          = 200000;  
+
+    //*********************************************************    
+    // Prepare dir for file and storage features
+    //*********************************************************  
+    function createFileDir() {
+
+        function fsOnError(error) {
+            alert("Cannot get to root file system. Code: " + error.message)
+        }
+        function dirOnError(error) {
+            alert("Cannot create dir. Code: " + error.code)
+        }
+        function fsOnSuccess(fileSystem) {
+            fileSystem.root.getDirectory(appHomeDir, {create: true, exclusive: false}, null, dirOnError);
+        }
+        
+        window.requestFileSystem( LocalFileSystem.PERSISTENT, 0, fsOnSuccess, fsOnError );
+    }
+
+    function exitAppPopup() {
+        navigator.notification.confirm(
+              'Do You want to quit Rawi Android application'
+            , function(button) {
+                  if (button == 2) {
+                      navigator.app.exitApp();
+                  } 
+              }
+            , 'Keluar'
+            , 'No,Yes'
+        );  
+    }
+
+    function onDeviceReady() {
+        // $("#main h1#appTitle").append("PhoneGap " + device.cordova + " Demo").trigger("create");
+        createFileDir();
+
+        document.addEventListener("backbutton", function() {
+                if ( $('.ui-page-active').attr('id') == 'main') {
+                    exitAppPopup();
+                } else {
+                    history.back();             
+                }
+            }, false);
+        
+        document.addEventListener("menubutton", function() {
+                if ( $('.ui-page-active').attr('id') == 'main') {
+                    showMenu();
+                } else {
+                    history.back();             
+                }
+            }, false);
+
+        document.addEventListener("searchbutton", function() {
+                if ( $('.ui-page-active').attr('id') == 'main') {
+                    showSearch();
+                } else {
+                    history.back();             
+                }
+            }, false);
+
+        $("textarea").change().trigger("updatelayout");
+        
+        $.mobile.defaultPageTransition = 'none';
+        $.mobile.defaultDialogTransition = 'none';
+        $.mobile.buttonMarkup.hoverDelay = 0;
+    }
+    
+    function init() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
+    </script>
+	
+	<script type="text/javascript" charset="utf-8" src="apis/device.js"></script>
+	<script type="text/javascript" charset="utf-8" src="apis/events.js"></script>
+	<script type="text/javascript" charset="utf-8" src="apis/media.js"></script>
+	<script type="text/javascript" charset="utf-8" src="apis/notification.js"></script>
+	 	
+</body>
+</html>
